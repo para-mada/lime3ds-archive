@@ -26,9 +26,13 @@ struct PacketHeader {
 
 constexpr u32 CURRENT_VERSION = 1;
 constexpr u32 MIN_PACKET_SIZE = sizeof(PacketHeader);
-constexpr u32 MAX_PACKET_DATA_SIZE = 32;
+// Keep replies large enough for efficient memory dumps while remaining below the
+// usual Ethernet UDP payload limit (1040 bytes including PacketHeader).
+constexpr u32 MAX_PACKET_DATA_SIZE = 1024;
 constexpr u32 MAX_PACKET_SIZE = MIN_PACKET_SIZE + MAX_PACKET_DATA_SIZE;
 constexpr u32 MAX_READ_SIZE = MAX_PACKET_DATA_SIZE;
+// Expanding read replies must not silently expand the remote write limit.
+constexpr u32 MAX_WRITE_SIZE = 24;
 
 class Packet {
 public:

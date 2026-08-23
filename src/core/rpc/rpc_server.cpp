@@ -80,7 +80,7 @@ void RPCServer::HandleSingleRequest(std::unique_ptr<Packet> request_packet) {
             }
             break;
         case PacketType::WriteMemory:
-            if (data_size > 0 && data_size <= MAX_PACKET_DATA_SIZE - (sizeof(u32) * 2)) {
+            if (data_size > 0 && data_size <= MAX_WRITE_SIZE) {
                 const auto data = packet_data.subspan(sizeof(u32) * 2, data_size);
                 HandleWriteMemory(*request_packet, address, data);
                 success = true;
