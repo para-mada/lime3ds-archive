@@ -30,10 +30,18 @@ void RPCServer::HandleReadMemory(Packet& packet, u32 address, u32 data_size) {
 }
 
 void RPCServer::HandleWriteMemory(Packet& packet, u32 address, std::span<const u8> data) {
+    // PokeMada's Sun/Moon Poke Vial only needs the six runtime party slots. These live in the
+    // New 3DS linear heap, which the generic RPC allow-list intentionally excludes. Keep this
+    // exception scoped to the researched party allocation instead of enabling the whole heap.
+    constexpr VAddr POKEMADA_SM_PARTY_VADDR_BEGIN = 0x34195E10;
+    constexpr VAddr POKEMADA_SM_PARTY_VADDR_END = 0x341968F2;
+    const bool is_pokemada_sm_party = address >= POKEMADA_SM_PARTY_VADDR_BEGIN &&
+                                      address + data.size() <= POKEMADA_SM_PARTY_VADDR_END;
     // Only allow writing to certain memory regions
     if ((address >= Memory::PROCESS_IMAGE_VADDR && address <= Memory::PROCESS_IMAGE_VADDR_END) ||
         (address >= Memory::HEAP_VADDR && address <= Memory::HEAP_VADDR_END) ||
-        (address >= Memory::N3DS_EXTRA_RAM_VADDR && address <= Memory::N3DS_EXTRA_RAM_VADDR_END)) {
+        (address >= Memory::N3DS_EXTRA_RAM_VADDR && address <= Memory::N3DS_EXTRA_RAM_VADDR_END) ||
+        is_pokemada_sm_party) {
         // Note: Memory write occurs asynchronously from the state of the emulator
         system.Memory().WriteBlock(address, data.data(), data.size());
         // If the memory happens to be executable code, make sure the changes become visible
