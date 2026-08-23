@@ -1,0 +1,41 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 23, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "windows-mingw-relwithdebinfo",
+      "displayName": "Windows MinGW - RelWithDebInfo",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/windows-mingw-relwithdebinfo",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_POLICY_VERSION_MINIMUM": "3.5",
+        "ENABLE_QT_TRANSLATION": "ON",
+        "USE_SYSTEM_QT": "OFF",
+        "USE_DISCORD_PRESENCE": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-mingw-relwithdebinfo",
+      "configurePreset": "windows-mingw-relwithdebinfo",
+      "jobs": 0
+    },
+    {
+      "name": "windows-mingw-bundle",
+      "configurePreset": "windows-mingw-relwithdebinfo",
+      "targets": ["bundle"],
+      "jobs": 0
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "windows-mingw-relwithdebinfo",
+      "configurePreset": "windows-mingw-relwithdebinfo",
+      "output": { "outputOnFailure": true }
+    }
+  ]
+}
