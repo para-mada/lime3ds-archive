@@ -4,7 +4,7 @@ add_executable(lime
     precompiled_headers.h
 )
 
-set_target_properties(lime PROPERTIES OUTPUT_NAME "lime3ds")
+set_target_properties(lime PROPERTIES OUTPUT_NAME "madalime")
 
 if (APPLE)
     set(DIST_DIR "../../dist/apple")
@@ -20,8 +20,8 @@ if (APPLE)
     set_target_properties(lime PROPERTIES
         MACOSX_BUNDLE TRUE
         MACOSX_BUNDLE_INFO_PLIST "${DIST_DIR}/Info.plist.in"
-        MACOSX_BUNDLE_BUNDLE_NAME "Lime3DS"
-        MACOSX_BUNDLE_GUI_IDENTIFIER "io.github.lime3ds.Lime3DS"
+        MACOSX_BUNDLE_BUNDLE_NAME "MadaLime"
+        MACOSX_BUNDLE_GUI_IDENTIFIER "net.paramada.MadaLime"
         MACOSX_BUNDLE_BUNDLE_VERSION "${BUILD_VERSION}"
         MACOSX_BUNDLE_SHORT_VERSION_STRING "${BUILD_FULLNAME}"
         MACOSX_BUNDLE_LONG_VERSION_STRING "${BUILD_FULLNAME}"

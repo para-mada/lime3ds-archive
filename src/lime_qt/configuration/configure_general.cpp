@@ -146,8 +146,8 @@ void ConfigureGeneral::SetConfiguration() {
 
 void ConfigureGeneral::ResetDefaults() {
     QMessageBox::StandardButton answer = QMessageBox::question(
-        this, tr("Lime3DS"),
-        tr("Are you sure you want to <b>reset your settings</b> and close Lime3DS?"),
+        this, tr("MadaLime"),
+        tr("Are you sure you want to <b>reset your settings</b> and close MadaLime?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
 
     if (answer == QMessageBox::No) {

@@ -289,7 +289,7 @@ private slots:
     void StartVideoDumping(const QString& path);
     void OnStopVideoDumping();
     void OnCoreError(Core::System::ResultStatus, std::string);
-    /// Called whenever a user selects Help->About Lime3DS
+    /// Called whenever a user selects Help->About MadaLime
     void OnMenuAboutLime3DS();
 
 #if ENABLE_QT_UPDATER

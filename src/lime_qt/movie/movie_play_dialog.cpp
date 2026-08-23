@@ -51,7 +51,7 @@ QString MoviePlayDialog::GetGamePath() const {
 void MoviePlayDialog::OnToolButtonClicked() {
     const QString path =
         QFileDialog::getOpenFileName(this, tr("Play Movie"), UISettings::values.movie_playback_path,
-                                     tr("Lime3DS TAS Movie (*.ctm)"));
+                                     tr("MadaLime TAS Movie (*.ctm)"));
     if (path.isEmpty()) {
         return;
     }

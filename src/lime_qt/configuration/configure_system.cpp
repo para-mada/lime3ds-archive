@@ -297,7 +297,7 @@ ConfigureSystem::ConfigureSystem(Core::System& system_, QWidget* parent)
         ui->label_nus_download->setTextInteractionFlags(Qt::TextBrowserInteraction);
         ui->label_nus_download->setOpenExternalLinks(true);
         ui->label_nus_download->setText(
-            tr("Lime3DS is missing keys to download system files. <br><a "
+            tr("MadaLime is missing keys to download system files. <br><a "
                "href='https://web.archive.org/web/20240304203412/https://citra-emu.org/wiki/"
                "aes-keys/'><span style=\"text-decoration: "
                "underline; color:#039be5;\">How to get keys?</span></a>"));
@@ -697,9 +697,9 @@ void ConfigureSystem::DownloadFromNUS() {
     future_watcher.waitForFinished();
 
     if (failed) {
-        QMessageBox::critical(this, tr("Lime3DS"), tr("Downloading system files failed."));
+        QMessageBox::critical(this, tr("MadaLime"), tr("Downloading system files failed."));
     } else if (!future_watcher.isCanceled()) {
-        QMessageBox::information(this, tr("Lime3DS"), tr("Successfully downloaded system files."));
+        QMessageBox::information(this, tr("MadaLime"), tr("Successfully downloaded system files."));
     }
 
     ui->button_start_download->setEnabled(true);

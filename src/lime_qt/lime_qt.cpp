@@ -290,7 +290,7 @@ GMainWindow::GMainWindow(Core::System& system_)
 
         if (args[i] == QStringLiteral("--version") || args[i] == QStringLiteral("-v")) {
             const std::string version_string =
-                std::string("Lime3DS ") + Common::g_scm_branch + " " + Common::g_scm_desc;
+                std::string("MadaLime ") + Common::g_scm_branch + " " + Common::g_scm_desc;
             ShowCommandOutput("Version", version_string);
             exit(0);
         }
@@ -369,7 +369,7 @@ GMainWindow::GMainWindow(Core::System& system_)
     ConnectMenuEvents();
     ConnectWidgetEvents();
 
-    LOG_INFO(Frontend, "Lime3DS Version: {} | {}-{}", Common::g_build_fullname,
+    LOG_INFO(Frontend, "MadaLime Version: {} | {}-{}", Common::g_build_fullname,
              Common::g_scm_branch, Common::g_scm_desc);
 #if LIME3DS_ARCH(x86_64)
     const auto& caps = Common::GetCPUCaps();
@@ -744,7 +744,7 @@ void GMainWindow::InitializeHotkeys() {
     link_action_shortcut(ui->action_Load_File, QStringLiteral("Load File"));
     link_action_shortcut(ui->action_Load_Amiibo, QStringLiteral("Load Amiibo"));
     link_action_shortcut(ui->action_Remove_Amiibo, QStringLiteral("Remove Amiibo"));
-    link_action_shortcut(ui->action_Exit, QStringLiteral("Exit Lime3DS"));
+    link_action_shortcut(ui->action_Exit, QStringLiteral("Exit MadaLime"));
     link_action_shortcut(ui->action_Restart, QStringLiteral("Restart Emulation"));
     link_action_shortcut(ui->action_Pause, QStringLiteral("Continue/Pause Emulation"));
     link_action_shortcut(ui->action_Stop, QStringLiteral("Stop Emulation"));
@@ -1218,7 +1218,7 @@ void GMainWindow::CheckForMigration() {
         !fs::is_directory(FileUtil::GetUserPath(FileUtil::UserPath::UserDir))) {
         if (QMessageBox::information(
                 this, tr("Migration"),
-                tr("Lime3DS has moved to a new data directory.\n\n"
+                tr("MadaLime has moved to a new data directory.\n\n"
                    "Would you like to migrate your Citra data to this new "
                    "location?\n"
                    "(This may take a while; The old data will not be deleted)"),
@@ -1253,7 +1253,7 @@ void GMainWindow::MigrateUserData() {
 
     QMessageBox::information(
         this, tr("Migration"),
-        tr("Data was migrated successfully. Lime3DS will now start.\n\n"
+        tr("Data was migrated successfully. MadaLime will now start.\n\n"
            "If you wish to clean up the files which were left in the old data location, you can do "
            "so by deleting the following directory:\n"
            "%1")
@@ -1278,7 +1278,7 @@ static std::optional<QDBusObjectPath> HoldWakeLockLinux(u32 window_id = 0) {
     //: TRANSLATORS: This string is shown to the user to explain why Lime3DS needs to prevent the
     //: computer from sleeping
     options.insert(QString::fromLatin1("reason"),
-                   QCoreApplication::translate("GMainWindow", "Lime3DS is running a game"));
+                   QCoreApplication::translate("GMainWindow", "MadaLime is running a game"));
     // 0x4: Suspend lock; 0x8: Idle lock
     QDBusReply<QDBusObjectPath> reply =
         xdp.call(QString::fromLatin1("Inhibit"),
@@ -1407,7 +1407,7 @@ bool GMainWindow::LoadROM(const QString& filename) {
 
         case Core::System::ResultStatus::ErrorLoader_ErrorGbaTitle:
             QMessageBox::critical(this, tr("Unsupported ROM"),
-                                  tr("GBA Virtual Console ROMs are not supported by Lime3DS."));
+                                  tr("GBA Virtual Console ROMs are not supported by MadaLime."));
             break;
 
         case Core::System::ResultStatus::ErrorArticDisconnected:
@@ -1465,7 +1465,7 @@ void GMainWindow::BootGame(const QString& filename) {
 
     show_artic_label = is_artic;
 
-    LOG_INFO(Frontend, "Lime3DS starting...");
+    LOG_INFO(Frontend, "MadaLime starting...");
     if (!is_artic) {
         StoreRecentFile(filename); // Put the filename on top of the list
     }
@@ -2125,7 +2125,7 @@ void GMainWindow::OnGameListCreateShortcut(u64 program_id, const std::string& ga
     if (CreateShortcutMessagesGUI(this, CREATE_SHORTCUT_MSGBOX_FULLSCREEN_PROMPT, qt_game_title)) {
         arguments = "-f " + arguments;
     }
-    const std::string comment = fmt::format("Start {:s} with the Lime3DS Emulator", game_title);
+    const std::string comment = fmt::format("Start {:s} with the MadaLime Emulator", game_title);
     const std::string categories = "Game;Emulator;Qt;";
     const std::string keywords = "3ds;Nintendo;";
 
@@ -2159,7 +2159,7 @@ void GMainWindow::OnGameListDumpRomFS(QString game_path, u64 program_id) {
                 const auto& [base, update] = future_watcher->result();
                 if (base != Loader::ResultStatus::Success) {
                     QMessageBox::critical(
-                        this, tr("Lime3DS"),
+                        this, tr("MadaLime"),
                         tr("Could not dump base RomFS.\nRefer to the log for details."));
                     return;
                 }
@@ -2321,7 +2321,7 @@ void GMainWindow::OnCIAInstallReport(Service::AM::InstallStatus status, QString 
     case Service::AM::InstallStatus::ErrorEncrypted:
         QMessageBox::critical(this, tr("Encrypted File"),
                               tr("%1 must be decrypted "
-                                 "before being used with Lime3DS. A real 3DS is required.")
+                                 "before being used with MadaLime. A real 3DS is required.")
                                   .arg(filename));
         break;
     case Service::AM::InstallStatus::ErrorFileNotFound:
@@ -2383,10 +2383,10 @@ void GMainWindow::UninstallTitles(
     future_watcher.waitForFinished();
 
     if (failed) {
-        QMessageBox::critical(this, tr("Lime3DS"),
+        QMessageBox::critical(this, tr("MadaLime"),
                               tr("Failed to uninstall '%1'.").arg(failed_name));
     } else if (!future_watcher.isCanceled()) {
-        QMessageBox::information(this, tr("Lime3DS"),
+        QMessageBox::information(this, tr("MadaLime"),
                                  tr("Successfully uninstalled '%1'.").arg(first_name));
     }
 }
@@ -3001,7 +3001,7 @@ void GMainWindow::OnOpenFFmpeg() {
 
     for (auto& library_name : library_names) {
         if (!FileUtil::Exists(bin_dir + DIR_SEP + library_name)) {
-            QMessageBox::critical(this, tr("Lime3DS"),
+            QMessageBox::critical(this, tr("MadaLime"),
                                   tr("The provided FFmpeg directory is missing %1. Please make "
                                      "sure the correct directory was selected.")
                                       .arg(QString::fromStdString(library_name)));
@@ -3025,9 +3025,9 @@ void GMainWindow::OnOpenFFmpeg() {
     FileUtil::ForeachDirectoryEntry(nullptr, bin_dir, process_file);
 
     if (success.load()) {
-        QMessageBox::information(this, tr("Lime3DS"), tr("FFmpeg has been sucessfully installed."));
+        QMessageBox::information(this, tr("MadaLime"), tr("FFmpeg has been sucessfully installed."));
     } else {
-        QMessageBox::critical(this, tr("Lime3DS"),
+        QMessageBox::critical(this, tr("MadaLime"),
                               tr("Installation of FFmpeg failed. Check the log file for details."));
     }
 }
@@ -3057,7 +3057,7 @@ void GMainWindow::StartVideoDumping(const QString& path) {
         system.RegisterVideoDumper(dumper);
     } else {
         QMessageBox::critical(
-            this, tr("Lime3DS"),
+            this, tr("MadaLime"),
             tr("Could not start video dumping.<br>Please ensure that the video encoder is "
                "configured correctly.<br>Refer to the log for details."));
         ui->action_Dump_Video->setChecked(false);
@@ -3420,7 +3420,7 @@ bool GMainWindow::ConfirmClose() {
     }
 
     QMessageBox::StandardButton answer =
-        QMessageBox::question(this, tr("Lime3DS"), tr("Would you like to exit now?"),
+        QMessageBox::question(this, tr("MadaLime"), tr("Would you like to exit now?"),
                               QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
     return answer != QMessageBox::No;
 }
@@ -3513,7 +3513,7 @@ bool GMainWindow::ConfirmChangeGame() {
     }
 
     auto answer = QMessageBox::question(
-        this, tr("Lime3DS"), tr("The game is still running. Would you like to stop emulation?"),
+        this, tr("MadaLime"), tr("The game is still running. Would you like to stop emulation?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
     return answer != QMessageBox::No;
 }
@@ -3639,13 +3639,13 @@ void GMainWindow::UpdateWindowTitle() {
     const QString full_name = QString::fromUtf8(Common::g_build_fullname);
 
     if (game_title_long.isEmpty()) {
-        setWindowTitle(QStringLiteral("Lime3DS %1").arg(full_name));
+        setWindowTitle(QStringLiteral("MadaLime %1").arg(full_name));
     } else {
-        setWindowTitle(QStringLiteral("Lime3DS %1 | %2").arg(full_name, game_title_long));
-        render_window->setWindowTitle(QStringLiteral("Lime3DS %1 | %2 | %3")
+        setWindowTitle(QStringLiteral("MadaLime %1 | %2").arg(full_name, game_title_long));
+        render_window->setWindowTitle(QStringLiteral("MadaLime %1 | %2 | %3")
                                           .arg(full_name, game_title_long, tr("Primary Window")));
         secondary_window->setWindowTitle(
-            QStringLiteral("Lime3DS %1 | %2 | %3")
+            QStringLiteral("MadaLime %1 | %2 | %3")
                 .arg(full_name, game_title_long, tr("Secondary Window")));
     }
 }
@@ -3802,8 +3802,8 @@ void LaunchQtFrontend(int argc, char* argv[]) {
     SCOPE_EXIT({ MicroProfileShutdown(); });
 
     // Init settings params
-    QCoreApplication::setOrganizationName(QStringLiteral("Lime3DS team"));
-    QCoreApplication::setApplicationName(QStringLiteral("Lime3DS"));
+    QCoreApplication::setOrganizationName(QStringLiteral("ParaMada"));
+    QCoreApplication::setApplicationName(QStringLiteral("MadaLime"));
 
     auto rounding_policy = GetHighDpiRoundingPolicy();
     QApplication::setHighDpiScaleFactorRoundingPolicy(rounding_policy);

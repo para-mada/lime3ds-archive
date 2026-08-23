@@ -11,11 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Lime</string>
+   <string>MadaLime</string>
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>dist/lime.png</normaloff>dist/lime.png</iconset>
+    <normaloff>dist/madalime.png</normaloff>dist/madalime.png</iconset>
   </property>
   <property name="tabShape">
    <enum>QTabWidget::Rounded</enum>
@@ -319,7 +319,7 @@
   </action>
   <action name="action_About">
    <property name="text">
-    <string>About Lime3DS</string>
+    <string>About MadaLime</string>
    </property>
    <property name="menuRole">
     <enum>QAction::AboutRole</enum>
@@ -491,15 +491,15 @@
     <string>Open Log Folder</string>
    </property>
    <property name="toolTip">
-    <string>Opens the Lime3DS log folder</string>
+    <string>Opens the MadaLime log folder</string>
    </property>
   </action>
   <action name="action_Open_Maintenance_Tool">
    <property name="text">
-    <string>Modify Lime3DS Install</string>
+    <string>Modify MadaLime Install</string>
    </property>
    <property name="toolTip">
-    <string>Opens the maintenance tool to modify your Lime3DS installation</string>
+    <string>Opens the maintenance tool to modify your MadaLime installation</string>
    </property>
   </action>
   <action name="action_Screen_Layout_Default">
@@ -674,7 +674,7 @@
   </action>
   <action name="action_Open_Lime3DS_Folder">
    <property name="text">
-    <string>Open Lime3DS Folder</string>
+    <string>Open MadaLime Folder</string>
    </property>
   </action>
   <action name="action_Configure_Current_Game">
