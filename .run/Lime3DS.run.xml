@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="MadaLime" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="lime" TARGET_NAME="lime" RUN_TARGET_PROJECT_NAME="lime" RUN_TARGET_NAME="lime">
+  <configuration default="false" name="LimoMada3DS" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="lime" TARGET_NAME="lime" RUN_TARGET_PROJECT_NAME="lime" RUN_TARGET_NAME="lime">
     <envs>
       <env name="PATH" value="$PROJECT_DIR$\build\windows-mingw-relwithdebinfo\bundle" />
     </envs>

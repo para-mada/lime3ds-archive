@@ -28,7 +28,7 @@ try {
             try {
                 Copy-Item -LiteralPath $source -Destination $destination -Force
             } catch [System.IO.IOException] {
-                Write-Warning "No se pudo actualizar $([IO.Path]::GetFileName($source)) en $destination porque MadaLime/Lime3DS lo está usando. El bundle compilado sigue siendo válido."
+                Write-Warning "No se pudo actualizar $([IO.Path]::GetFileName($source)) en $destination porque LimoMada3DS/Lime3DS lo está usando. El bundle compilado sigue siendo válido."
             }
         }
         foreach ($runtime in @('libwinpthread-1.dll', 'libgcc_s_seh-1.dll', 'libstdc++-6.dll')) {
@@ -43,7 +43,7 @@ try {
         try {
             Copy-Item -LiteralPath (Join-Path $bundleDir 'plugins') -Destination $runDir -Recurse -Force
         } catch [System.IO.IOException] {
-            Write-Warning 'No se pudieron actualizar todos los plugins del directorio de ejecución porque MadaLime/Lime3DS está abierto. El bundle compilado sigue siendo válido.'
+            Write-Warning 'No se pudieron actualizar todos los plugins del directorio de ejecución porque LimoMada3DS/Lime3DS está abierto. El bundle compilado sigue siendo válido.'
         }
     }
 } finally { Pop-Location }
