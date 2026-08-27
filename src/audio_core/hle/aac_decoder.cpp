@@ -8,6 +8,18 @@
 namespace AudioCore::HLE {
 
 AACDecoder::AACDecoder(Memory::MemorySystem& memory) : memory(memory) {
+    // A decoder must be available before the first Init request for savestate loads, which can
+    // resume directly with an EncodeDecode request.
+    InitDecoder();
+}
+
+void AACDecoder::InitDecoder() {
+    if (decoder) {
+        NeAACDecClose(decoder);
+        decoder = nullptr;
+    }
+    decoder_initialized = false;
+
     decoder = NeAACDecOpen();
     if (decoder == nullptr) {
         LOG_CRITICAL(Audio_DSP, "Could not open FAAD2 decoder.");
@@ -50,6 +62,9 @@ BinaryMessage AACDecoder::ProcessRequest(const BinaryMessage& request) {
 
     switch (request.header.cmd) {
     case DecoderCommand::Init: {
+        // Init denotes a new AAC stream. Recreate the decoder so state from the previous stream is
+        // released, then defer NeAACDecInit until the first frame provides stream metadata.
+        InitDecoder();
         BinaryMessage response = request;
         response.header.result = ResultStatus::Success;
         return response;
@@ -102,17 +117,20 @@ BinaryMessage AACDecoder::Decode(const BinaryMessage& request) {
     u8* data = memory.GetFCRAMPointer(request.decode_aac_request.src_addr - Memory::FCRAM_PADDR);
     u32 data_len = request.decode_aac_request.size;
 
-    unsigned long sample_rate;
-    u8 num_channels;
-    auto init_result = NeAACDecInit(decoder, data, data_len, &sample_rate, &num_channels);
-    if (init_result < 0) {
-        LOG_ERROR(Audio_DSP, "Could not initialize FAAD2 AAC decoder for request: {}", init_result);
-        return response;
-    }
+    if (!decoder_initialized) {
+        const auto init_result = NeAACDecInit(decoder, data, data_len, &sample_rate, &num_channels);
+        if (init_result < 0) {
+            LOG_ERROR(Audio_DSP, "Could not initialize FAAD2 AAC decoder for request: {}",
+                      init_result);
+            return response;
+        }
 
-    // Advance past the frame header if needed.
-    data += init_result;
-    data_len -= init_result;
+        // NeAACDecInit may consume the first frame header. Subsequent frames are passed directly to
+        // NeAACDecDecode, which handles their headers without recreating the filter bank.
+        data += init_result;
+        data_len -= init_result;
+        decoder_initialized = true;
+    }
 
     std::array<std::vector<s16>, 2> out_streams;
 

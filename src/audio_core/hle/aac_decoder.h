@@ -17,10 +17,14 @@ public:
     BinaryMessage ProcessRequest(const BinaryMessage& request) override;
 
 private:
+    void InitDecoder();
     BinaryMessage Decode(const BinaryMessage& request);
 
     Memory::MemorySystem& memory;
     NeAACDecHandle decoder = nullptr;
+    bool decoder_initialized = false;
+    unsigned long sample_rate = 48000;
+    u8 num_channels = 2;
 };
 
 } // namespace AudioCore::HLE

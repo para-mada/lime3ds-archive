@@ -4,7 +4,10 @@
 
 #pragma once
 
+#include <atomic>
 #include <condition_variable>
+#include <cstddef>
+#include <cstdint>
 #include <memory>
 #include <span>
 #include "common/polyfill_thread.h"
@@ -34,8 +37,11 @@ private:
     void HandleRequestsLoop(std::stop_token stop_token);
 
 private:
+    static constexpr std::size_t REQUEST_QUEUE_CAPACITY = 256;
+
     Core::System& system;
     Common::SPSCQueue<std::unique_ptr<Packet>, true> request_queue;
+    std::atomic<std::uint64_t> dropped_request_count{0};
     std::jthread request_handler_thread;
 };
 

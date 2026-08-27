@@ -117,7 +117,21 @@ void RPCServer::HandleRequestsLoop(std::stop_token stop_token) {
 }
 
 void RPCServer::QueueRequest(std::unique_ptr<RPC::Packet> request) {
-    request_queue.Push(std::move(request));
+    // UDPServer has one receive chain and request_queue is SPSC, so only this producer can grow
+    // the queue. The consumer can only reduce Size() between this check and Push().
+    if (request_queue.Size() < REQUEST_QUEUE_CAPACITY) {
+        request_queue.Push(std::move(request));
+        return;
+    }
+
+    const std::uint64_t dropped = dropped_request_count.fetch_add(1, std::memory_order_relaxed) + 1;
+    // Log at powers of two to expose sustained overload without turning a UDP flood into a second
+    // resource problem. UDP clients already have to tolerate packet loss and retry/time out.
+    if ((dropped & (dropped - 1)) == 0) {
+        LOG_WARNING(RPC_Server,
+                    "RPC request queue full (capacity {}); dropped {} requests in total",
+                    REQUEST_QUEUE_CAPACITY, dropped);
+    }
 }
 
 }; // namespace Core::RPC
